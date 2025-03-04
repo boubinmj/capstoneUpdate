@@ -1,14 +1,33 @@
 import numpy as np
 import pandas as pd
+from pandas import json_normalize
+import requests
 
 class CapstoneUpdate():
 
-    def __init__(self, filePath):
-        self.filePath = filePath
+    def __init__(self):
+        self.filePath = 'filePath'
 
     def import_file(self):
         self.df = pd.read_csv('dataFiles/cap23-24.csv')
         print(self.df.columns)
+
+    def rest_import(self):
+        url = "https://wagner.nyu.edu/api/capstone_salesforce"
+
+        payload = {}
+        headers = {
+        'Authorization': 'Basic bnl1ODE6dHJhdj1scGxhbm49cjEu',
+        'Cookie': 'NO_CACHE=1; SimpleSAMLSessionID=f23d0c7cde1e3cce33f80be51e1ce007'
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        print(response.text)
+        dat = response.json()
+        df = pd.json_normalize(dat)
+        print(df.head())
+        return df
 
     def sf(self):
         from credentials_connection import User
