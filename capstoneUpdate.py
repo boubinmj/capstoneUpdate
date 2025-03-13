@@ -36,6 +36,7 @@ class CapstoneUpdate():
         matt = User('dev')
         matt.getCredentials()
         salesfoce_obj = matt.sf_login()
+        self.sf = salesfoce_obj
         return salesfoce_obj
 
     def format_focus_areas(self):
@@ -53,3 +54,11 @@ class CapstoneUpdate():
 
     def preview_df(self):
         print(self.df)
+
+    def match_capstone(self):
+        for index, row in self.df.iterrows():
+            resp = self.sf.query_all("SELECT Id FROM Capstone__c WHERE Body__c LIKE '" + row['body'].replace("'", "") + "'")['records']
+            if(len(resp>0)):
+                logging.info(resp[0]['Id'])
+            else:
+                logging.info('new')
