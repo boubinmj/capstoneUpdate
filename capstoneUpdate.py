@@ -9,7 +9,7 @@ class CapstoneUpdate():
 
     def __init__(self):
         self.filePath = 'filePath'
-        logging.basicConfig(filename="webCapstones.log", level=logging.INFO)
+        logging.basicConfig(filename="webCapstones.log", level=logging.INFO, filemode='w')
 
     def import_file(self):
         self.df = pd.read_csv('dataFiles/cap23-24.csv')
