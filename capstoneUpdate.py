@@ -2,11 +2,14 @@ import numpy as np
 import pandas as pd
 from pandas import json_normalize
 import requests
+import logging
+
 
 class CapstoneUpdate():
 
     def __init__(self):
         self.filePath = 'filePath'
+        logging.basicConfig(filename="webCapstones.log", level=logging.INFO)
 
     def import_file(self):
         self.df = pd.read_csv('dataFiles/cap23-24.csv')
@@ -23,11 +26,10 @@ class CapstoneUpdate():
 
         response = requests.request("GET", url, headers=headers, data=payload)
 
-        print(response.text)
+        #print(response.text)
         dat = response.json()
-        df = pd.json_normalize(dat)
-        print(df.head())
-        return df
+        self.df = pd.json_normalize(dat)
+        logging.info(self.df.head())
 
     def sf(self):
         from credentials_connection import User
