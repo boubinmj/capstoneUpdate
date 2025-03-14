@@ -30,6 +30,7 @@ class CapstoneUpdate():
         dat = response.json()
         self.df = pd.json_normalize(dat)
         logging.info(self.df.head())
+        logging.info(self.df.columns)
 
     def sf(self):
         from credentials_connection import User
@@ -57,8 +58,9 @@ class CapstoneUpdate():
 
     def match_capstone(self):
         for index, row in self.df.iterrows():
-            resp = self.sf.query_all("SELECT Id FROM Capstone__c WHERE Body__c LIKE '" + row['body'].replace("'", "") + "'")['records']
-            if(len(resp>0)):
+            resp = self.sf.query_all("SELECT Id FROM Capstone__c WHERE Capstone_Client__c LIKE '" + row['field_capstone_client'] + "' AND Title__c LIKE '" + row['title'] + "'")['records']
+            if(len(resp)>0):
                 logging.info(resp[0]['Id'])
             else:
-                logging.info('new')
+                logging.info('create')
+                #self.sf.Capstone__c.create()
