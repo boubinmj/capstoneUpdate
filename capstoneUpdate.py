@@ -63,4 +63,11 @@ class CapstoneUpdate():
                 logging.info(resp[0]['Id'])
             else:
                 logging.info('create')
+    #             'title', 'field_areas_of_impact', 'body', 'field_academic_year',
+    #    'field_capstone_course', 'field_course_subject',
+    #    'field_capstone_program', 'delta', 'field_capstone_client'],
                 #self.sf.Capstone__c.create()
+                self.sf.Capstone__c.create({'Body__c': row['body'],
+                                            'Capstone_Client__c': row['field_capstone_client'],
+                                            'field_capstone_program': row['Course_Subject__c'],
+                })
